@@ -122,5 +122,6 @@ public class TestIT {
         int result = characterCounter.countCharacters("String");
         int expected = 6;
         assertEquals(expected, result);
+
     }
 }
