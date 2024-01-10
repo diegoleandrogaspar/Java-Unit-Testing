@@ -1,4 +1,4 @@
-package br.com.diegoleandro.automatedtestes.model;
+package br.com.diegoleandro.automatedtestes.tdd.model;
 
 import java.io.Serializable;
 import java.util.Objects;

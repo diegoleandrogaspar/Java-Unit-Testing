@@ -1,4 +1,4 @@
-package br.com.diegoleandro.automatedtestes.math;
+package br.com.diegoleandro.automatedtestes.tdd.math;
 
 public class StringConcatenator {
     // escreva um teste usando a classe Assert para verificar se a concatenação está correta.

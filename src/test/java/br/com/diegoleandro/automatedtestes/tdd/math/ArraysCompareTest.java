@@ -1,8 +1,7 @@
-package br.com.diegoleandro.automatedtestes.math;
+package br.com.diegoleandro.automatedtestes.tdd.math;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package br.com.diegoleandro.automatedtestes.math;
+package br.com.diegoleandro.automatedtestes.tdd.math;
 
 public class SimpleMath {
 

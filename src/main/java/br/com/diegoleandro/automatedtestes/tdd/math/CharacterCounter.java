@@ -1,4 +1,4 @@
-package br.com.diegoleandro.automatedtestes.math;
+package br.com.diegoleandro.automatedtestes.tdd.math;
 
 
 // implemente um método countCharacters que conta o número de caracteres em uma string.
