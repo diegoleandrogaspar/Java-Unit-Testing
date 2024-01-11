@@ -1,18 +1,19 @@
 package br.com.diegoleandro.automatedtestes.mockito.business;
 
 import br.com.diegoleandro.automatedtestes.mockito.service.CourseService;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
+import static org.mockito.BDDMockito.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-public class CourseBusinessMockTest {
+public class CourseBusinessMockWithBDDTest {
 
     CourseService mockService;
     CourseBusiness business;
@@ -37,19 +38,36 @@ public class CourseBusinessMockTest {
                 "Microsserviços do 0 com Spring Cloud, Kotlin e Docker"
         );
 
-
     }
 
     @Test
    void testCoursesRelatedToSpring_When_UsingASMock() {
 
-        when(mockService.retrieveCourses("Diego"))
-                .thenReturn(courses);
+        given(mockService.retrieveCourses("Diego"))
+                .willReturn(courses);
 
         // when
         var filteredCourses = business.retrieveCoursesRelatedToString("Diego");
 
         // then
-        Assertions.assertEquals(4, filteredCourses.size());
+        assertThat(filteredCourses.size(), is(4));
    }
+
+   @DisplayName("Delete Courses not Related to Spring Using Mockito sould call")
+   @Test
+   void testDeleteCoursesNotRelatedToSpring_UsingMockitoVerify_Should_CallMethod_deleteCourse() {
+        // Given
+
+       given(mockService.retrieveCourses("Diego"))
+               .willReturn(courses);
+
+       //When
+       business.deleteCoursesNotRelatedToSpring("Diego");
+       // Then
+       verify(mockService).deleteCourse("Agile Desmistificado com Scrum, XP, Kanban e Trello");
+
+   }
+
+
+
 }

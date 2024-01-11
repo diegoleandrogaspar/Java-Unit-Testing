@@ -26,8 +26,20 @@ public class CourseBusiness {
                 filteredCourses.add(course);
             }
         }
-
         return filteredCourses;
+    }
+
+    public void deleteCoursesNotRelatedToSpring(String student) {
+
+        var allCourses = service.retrieveCourses(student);
+
+        for (String course : allCourses) {
+            if (!course.contains("Spring")) {
+                service.deleteCourse(course);
+            }
+        }
 
     }
+
+
 }
