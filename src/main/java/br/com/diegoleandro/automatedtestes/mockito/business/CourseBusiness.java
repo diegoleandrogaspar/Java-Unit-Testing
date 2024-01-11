@@ -1,6 +1,6 @@
-package br.com.diegoleandro.automatedtestes;
+package br.com.diegoleandro.automatedtestes.mockito.business;
 
-import br.com.diegoleandro.automatedtestes.mockito.CourseService;
+import br.com.diegoleandro.automatedtestes.mockito.service.CourseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +14,11 @@ public class CourseBusiness {
         this.service = service;
     }
 
-
     public List<String> retrieveCoursesRelatedToString(String student) {
 
         var filteredCourses = new ArrayList<String>();
+        if ("Foo Bar".equals(student)) return filteredCourses;
+
         var allCourses = service.retrieveCourses(student);
 
         for (String course: allCourses) {
@@ -27,7 +28,6 @@ public class CourseBusiness {
         }
 
         return filteredCourses;
-
 
     }
 }
