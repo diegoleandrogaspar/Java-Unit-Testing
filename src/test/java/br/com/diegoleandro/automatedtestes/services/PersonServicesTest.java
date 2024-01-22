@@ -1,5 +1,6 @@
 package br.com.diegoleandro.automatedtestes.services;
 
+import br.com.diegoleandro.automatedtestes.exceptions.ResourceNotFoundException;
 import br.com.diegoleandro.automatedtestes.model.Person;
 import br.com.diegoleandro.automatedtestes.repositories.PersonRepository;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +42,7 @@ public class PersonServicesTest {
                 "diego@email.com");
     }
 
-    @DisplayName("Display name")
+    @DisplayName("JUnit test for Given Person Object when Save Person then Return Person Object")
     @Test
     void testGivenPersonObject_WhenSavePerson_thenReturnPersonObject() {
 
@@ -53,6 +54,22 @@ public class PersonServicesTest {
         Assertions.assertNotNull(savedPerson);
         Assertions.assertEquals("Diego", savedPerson.getFirstName());
     }
+
+    @DisplayName("JUnit test for Given Existing Email  when Save Person then throws Exception")
+    @Test
+    void testGivenExistingEmail_WhenSavePerson_thenThrowsException() {
+
+        given(personRepository.findByEmail(anyString())).willReturn(Optional.of(person0));
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () ->{
+            personServices.create(person0);
+        });
+
+        Mockito.verify(personRepository, never()).save(any(Person.class));
+    }
+
+
+
 
 
 }
