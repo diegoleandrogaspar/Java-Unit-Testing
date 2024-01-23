@@ -14,11 +14,9 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
-
 import static org.mockito.BDDMockito.*;
-
-
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServicesTest {
@@ -69,7 +67,17 @@ public class PersonServicesTest {
     }
 
 
+    @DisplayName("JUnit test for Given Person List when findALL then Person List")
+    @Test
+    void testGivenPersonList_WhenFindAllPerson_thenReturnPersonList() {
 
+        Person person1 = new Person("Zidane", "Leandro", "Rio de Janeiro - RJ - Brasil", "Male", "diego@mail.com");
 
+        given(personRepository.findAll()).willReturn(List.of(person0, person1));
 
+        List<Person> personList = personServices.findAll();
+
+        Assertions.assertNotNull(personList);
+        Assertions.assertEquals(2, personList.size());
+    }
 }
