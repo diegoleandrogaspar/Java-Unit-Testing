@@ -17,6 +17,8 @@ import org.springframework.util.Assert;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,8 +93,23 @@ public class PersonServicesTest {
 
         List<Person> personList = personServices.findAll();
 
-        Assertions.assertTrue(personList.isEmpty());
+        assertTrue(personList.isEmpty());
         Assertions.assertEquals(0, personList.size());
+    }
+
+
+    @DisplayName("JUnit test for Given Return PersonId when findById then personId")
+    @Test
+    void testGivenPersonId_WhenFindByIdPerson_thenReturnPersonId() {
+
+        Person person1 = new Person( 1L,"Zidane", "Leandro", "Rio de Janeiro - RJ - Brasil", "Male", "diego@mail.com");
+
+        given(personRepository.findById(person1.getId())).willReturn(Optional.of(person1));
+
+        Person personFound = personServices.findById(person1.getId());
+
+        assertNotNull(personFound);
+        assertEquals(person1.getId(), personFound.getId());
     }
 
 
