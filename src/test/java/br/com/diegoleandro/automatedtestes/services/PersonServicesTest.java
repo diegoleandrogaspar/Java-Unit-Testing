@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import static org.mockito.BDDMockito.*;
@@ -80,4 +81,19 @@ public class PersonServicesTest {
         Assertions.assertNotNull(personList);
         Assertions.assertEquals(2, personList.size());
     }
+
+
+    @DisplayName("JUnit test for Given Empty Person List when findALL then Person List")
+    @Test
+    void testGivenEmptyPersonList_WhenFindAllPerson_thenReturnEmptyPersonList() {
+
+        given(personRepository.findAll()).willReturn(Collections.emptyList());
+
+        List<Person> personList = personServices.findAll();
+
+        Assertions.assertTrue(personList.isEmpty());
+        Assertions.assertEquals(0, personList.size());
+    }
+
+
 }
