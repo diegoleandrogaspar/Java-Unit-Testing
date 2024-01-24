@@ -84,7 +84,6 @@ public class PersonServicesTest {
         Assertions.assertEquals(2, personList.size());
     }
 
-
     @DisplayName("JUnit test for Given Empty Person List when findALL then Person List")
     @Test
     void testGivenEmptyPersonList_WhenFindAllPerson_thenReturnEmptyPersonList() {
@@ -96,7 +95,6 @@ public class PersonServicesTest {
         assertTrue(personList.isEmpty());
         Assertions.assertEquals(0, personList.size());
     }
-
 
     @DisplayName("JUnit test for Given Return PersonId when findById then personId")
     @Test
@@ -112,5 +110,36 @@ public class PersonServicesTest {
         assertEquals(person1.getId(), personFound.getId());
     }
 
+    @DisplayName("JUnit test for Given Return Person Update when ")
+    @Test
+    void testGivenPersonObject_WhenUpdatePerson_thenReturnPersonUpdade() {
+
+        person0.setId(1L);
+        given(personRepository.findById(anyLong())).willReturn(Optional.of(person0));
+
+        person0.setFirstName("Silva");
+        person0.setEmail("silva123@gmail.com");
+
+        given(personRepository.save(person0)).willReturn(person0);
+
+        Person updatePerson = personServices.update(person0);
+
+        assertNotNull(updatePerson);
+        assertEquals("Silva", updatePerson.getFirstName());
+        assertEquals("silva123@gmail.com", updatePerson.getEmail());
+    }
+
+    @DisplayName("JUnit test for Given Person Person Update when ")
+    @Test
+    void testGivenPersonID_WhenDeletePerson_thenDoNothing() {
+
+        person0.setId(1L);
+        given(personRepository.findById(anyLong())).willReturn(Optional.of(person0));
+        willDoNothing().given(personRepository).delete(person0);
+
+        personServices.delete(person0.getId());
+
+        verify(personRepository, times(1)).delete(person0);
+    }
 
 }
