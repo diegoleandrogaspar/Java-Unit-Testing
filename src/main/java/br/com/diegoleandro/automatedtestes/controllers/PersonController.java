@@ -16,12 +16,12 @@ public class PersonController {
     @Autowired
     private PersonServices services;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public Person findById(@PathVariable(value = "id") Long id)  {
         return services.findById(id);
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping()
     public List<Person> findAll() {
         return services.findAll();
     }
