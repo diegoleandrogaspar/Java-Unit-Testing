@@ -138,8 +138,33 @@ public class PersonControllerTest {
         ResultActions response = mockMvc.perform(get("/person/{id}", personId));
 
         response.andExpect(status().isNotFound()).andDo(print());
-
     }
 
+    @Test
+    @DisplayName("JUnit test for Given Updated Person when Update then Return Updated Person")
+    void testGivenUpdatedPerson_whenUpdate_thenReturnUpdate() throws Exception {
 
+        long personId = 1L;
+        given(personServices.findById(personId)).willReturn(person);
+        given(personServices.update(any(Person.class)))
+                .willAnswer((invocationOnMock -> invocationOnMock.getArgument(0)));
+
+        Person updatedPerson =  new Person(
+                "silva",
+                "gaspar",
+                "Rio de Janeiro",
+                "Male",
+                "silvagaspar@email.com");
+
+        ResultActions response = mockMvc.perform(put("/person")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(updatedPerson)));
+
+        response
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.firstName", is(updatedPerson.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(updatedPerson.getLastName())))
+                .andExpect(jsonPath("$.email", is(updatedPerson.getEmail())));
+    }
 }
