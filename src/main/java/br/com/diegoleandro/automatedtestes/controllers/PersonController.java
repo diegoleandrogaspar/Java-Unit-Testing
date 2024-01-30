@@ -35,9 +35,15 @@ public class PersonController {
        return services.create(person);
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody Person person){
-        return services.update(person);
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE ,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Person> update(@RequestBody Person person){
+        try {
+            return ResponseEntity.ok(services.update(person));
+        } catch (Exception ex) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
     @DeleteMapping(value = "/{id}")

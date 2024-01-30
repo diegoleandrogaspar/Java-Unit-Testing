@@ -167,4 +167,49 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.lastName", is(updatedPerson.getLastName())))
                 .andExpect(jsonPath("$.email", is(updatedPerson.getEmail())));
     }
+
+    @Test
+    @DisplayName("JUnit test for Given Unexistent when Update then Return Not Found")
+    void testGivenUnexistentPerson_whenUpdate_thenReturnNotFound() throws Exception {
+
+        long personId = 1L;
+        given(personServices.findById(personId)).willThrow(ResourceNotFoundException.class);
+        given(personServices.update(any(Person.class)))
+                .willAnswer((invocationOnMock -> invocationOnMock.getArgument(1)));
+
+        Person updatedPerson =  new Person(
+                "silva",
+                "gaspar",
+                "Rio de Janeiro",
+                "Male",
+                "silvagaspar@email.com");
+
+        ResultActions response = mockMvc.perform(put("/person")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(objectMapper.writeValueAsString(updatedPerson)));
+
+        response
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("JUnit test for Given personId when Delete then Return NotContent")
+    void testGivenPersonId_WhenDelete_thenReturnNotContent() throws Exception {
+
+        //Given
+        long personId = 1L;
+        willDoNothing().given(personServices).delete(personId);
+
+        // When
+        ResultActions response = mockMvc.perform(delete("/person/{id}", personId));
+
+        response.andExpect(status().isNoContent()).andDo(print());
+
+    }
+
+
+
+
+
 }
