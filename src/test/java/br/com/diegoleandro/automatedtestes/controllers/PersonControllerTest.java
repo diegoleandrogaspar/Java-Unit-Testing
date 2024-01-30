@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import br.com.diegoleandro.automatedtestes.exceptions.ResourceNotFoundException;
 import br.com.diegoleandro.automatedtestes.model.Person;
 import br.com.diegoleandro.automatedtestes.services.PersonServices;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -124,6 +125,20 @@ public class PersonControllerTest {
                 .andExpect(jsonPath("$.firstName", is(person.getFirstName())))
                 .andExpect(jsonPath("$.lastName", is(person.getLastName())))
                 .andExpect(jsonPath("$.email", is(person.getEmail())));
+    }
+
+
+    @Test
+    @DisplayName("JUnit test for given Invalid PersonId when findById then Return Not Found")
+    void testGivenInvalidPersonId_whenFindById_thenReturnNotFound() throws Exception {
+
+        long personId = 1L;
+        given(personServices.findById(personId)).willThrow(ResourceNotFoundException.class);
+
+        ResultActions response = mockMvc.perform(get("/person/{id}", personId));
+
+        response.andExpect(status().isNotFound()).andDo(print());
+
     }
 
 
