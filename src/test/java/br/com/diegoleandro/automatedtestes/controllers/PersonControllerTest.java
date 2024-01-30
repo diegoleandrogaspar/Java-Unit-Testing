@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @WebMvcTest
 public class PersonControllerTest {
@@ -104,4 +105,26 @@ public class PersonControllerTest {
            .andDo(print())
            .andExpect(jsonPath("$", hasSize(persons.size())));
     }
+
+    @Test
+    @DisplayName("JUnit test for Given Person ID when Create Person")
+    void testGivenPersonId_WhenFindByIdPerson_thenReturnFindByIdPerson() throws Exception {
+
+        // Given
+        long personId = 1L;
+        given(personServices.findById(personId)).willReturn(person);
+
+        // When
+        ResultActions response = mockMvc.perform(get("/person/{id}", personId));
+
+        // then
+        response
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.firstName", is(person.getFirstName())))
+                .andExpect(jsonPath("$.lastName", is(person.getLastName())))
+                .andExpect(jsonPath("$.email", is(person.getEmail())));
+    }
+
+
 }
